@@ -1,12 +1,17 @@
 import React from 'react';
 import axios from 'axios';
+import  SingleLineImageList from './imageList';
+
+
 
 class Categories extends React.Component{
 
  state = {
         categories : '',
-        categories_names: ''
+        images:''
     };
+
+
 
 
     componentDidMount(){
@@ -14,6 +19,7 @@ class Categories extends React.Component{
         console.log("we are in component did mount (Categories)");
     }
 
+   
 
     fetchDataCategories = () =>{
         axios.get('https://backend.ustraa.com/rest/V1/api/homemenucategories/v1.0.1?device_type=mob')
@@ -27,8 +33,14 @@ class Categories extends React.Component{
             return category.category_name;
         })
         this.setState({categories_names :categories_names});
+       
         console.log("categories Names");
         console.log(categories_names);
+        const images = categories.map(function(category){
+            return category.category_image;
+        })
+        this.setState({images :images});
+       console.log(images);
 
         })
         .catch((error)=>{
@@ -39,16 +51,16 @@ class Categories extends React.Component{
 
 
 render(){
-    const categories_names = this.state.categories_names;
-    
-    return (
-        <div>
-        
-       </div>
-    );
-    
+    const itemData = this.state.categories;
+  return(
+<div>
+    <SingleLineImageList/>
+</div>
+   
+  );
 
-  }
+}
+
 }
 
 export default Categories ;
